@@ -22,6 +22,7 @@ class Piece {
 		int health; // quantidade de vida
 
 		int walk_dist; // distância máxima de movimento
+		bool transparent; // se deve ser transparente
 		
 		std::string image_source; // source da imagem da peça
 

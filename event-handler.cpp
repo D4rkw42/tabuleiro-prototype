@@ -65,6 +65,8 @@ void onMouseClick(SDL_Event* event, int dir) {
 				for (size_t i = 0; i < pieceList.size(); i++) { // buscando peça
 					if (pieceList[i].x == square.x && pieceList[i].y == square.y) {
 						pieceSellected = &pieceList[i];
+
+						pieceSellected->transparent = true;
 						enlighten_pointer_square = true;
 						piece_moving = true;
 
@@ -96,6 +98,8 @@ void onMouseClick(SDL_Event* event, int dir) {
 
 					// resetando estado
 
+					pieceSellected->transparent = false;
+
 					pieceSellected = NULL;
 					enlighten_pointer_square = false;
 					piece_moving = false;
@@ -103,6 +107,20 @@ void onMouseClick(SDL_Event* event, int dir) {
 			}
 
 		}
+	}
+}
+
+//
+
+void onKeyboard(SDL_Event* event, int dir) {
+	// cancelando movimento de peças
+
+	if (event->key.keysym.sym == SDLK_ESCAPE && pieceSellected && dir == 1) {
+		pieceSellected->transparent = false;
+
+		pieceSellected = NULL;
+		enlighten_pointer_square = false;
+		piece_moving = false;
 	}
 }
 
@@ -121,6 +139,11 @@ void handleEvents(SDL_Event* event) {
 
 		case SDL_MOUSEMOTION:
 			onMouseMove(event);
+			break;
+
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			onKeyboard(event, (event->type == SDL_KEYDOWN)? -1 : 1);
 			break;
 
 	}

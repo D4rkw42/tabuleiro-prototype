@@ -42,6 +42,8 @@ Piece::Piece(Piece_type type, const char* name, double x, double y) {
 	this->x = x;
 	this->y = y;
 
+	this->transparent = false;
+
 	string img_source_info = data["img-source"].dump(); // dado do objeto json
 	string img_final_source = img_source + img_source_info.substr(1, img_source_info.length() - 2); // capturando root completa
 
@@ -83,7 +85,10 @@ void Piece::draw(SDL_Renderer* render, Window_data window_data, Cam_data cam_dat
 	rect.w*= cam_data.scale;
 	rect.h*= cam_data.scale;
 
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(texture, this->transparent? 0.5 * 255 : 255);
 	SDL_RenderCopy(render, texture, NULL, &rect);
+
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(image_surface);
 }
@@ -117,11 +122,18 @@ void displayPieceRange(SDL_Renderer* render, Piece* target, Square_data square, 
 	for (int i = 1; i < dist; i++) {
 		Color color;
 
-		if (distance(target->x, target->y, target->x + ceil(stepX * dirX * i), target->y + ceil(stepY * dirY * i)) > target->walk_dist)
+		int pos_x = target->x + ceil(stepX * dirX * i);
+		int pos_y = target->y + ceil(stepY * dirY * i);
+
+		if (target->x == pos_x && target->y == pos_y)
+			continue;
+
+		if (distance(target->x, target->y, pos_x, pos_y) > target->walk_dist)
 			color = Color{255, 150, 150, 200};
 		else
 			color = Color{150, 255, 150, 200};
 
-		fillSquare(render, target->x + ceil(stepX * dirX * i), target->y + ceil(stepY * dirY * i), color, window_data, cam_data);
+		fillSquare(render, pos_x, pos_y, color, window_data, cam_data);
+
 	}
 }

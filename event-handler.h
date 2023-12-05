@@ -9,6 +9,8 @@ void onMouseWheel(SDL_Event* event); // disparado quando se usa a roda do mouse
 void onMouseMove(SDL_Event* event); // disparado quando o mouse se move
 void onMouseClick(SDL_Event* event, int dir); // disparado quando o mouse clica
 
+void onKeyboard(SDL_Event* event, int dir); // disparado quando usa o teclado
+
 void handleEvents(SDL_Event* event); // carrega os eventos
 
 #endif

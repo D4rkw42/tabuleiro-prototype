@@ -21,7 +21,9 @@ bool initialize(void) {
 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); // criando renderizador
 
-	SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+	// ativando transparências
+
+	SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND); // draw funcs
 
 	// icone da janela
 

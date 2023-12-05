@@ -50,17 +50,20 @@ void draw(void) {
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 255); // preto
 	SDL_RenderClear(render); // clear
 
+	// desenhando peças
+
+	for (size_t i = 0; i < pieceList.size(); i++)
+		pieceList[i].draw(render, window_data, cam_data); // peça
+
 	// desenhando a grade
 
 	if (piece_moving)
 		drawSquareGrid(render, window_data, cam_data);
 
-	// desenhando peças
+	// desenhando health bar
 
-	for (size_t i = 0; i < pieceList.size(); i++) { 
-		pieceList[i].draw(render, window_data, cam_data); // peça
+	for (size_t i = 0; i < pieceList.size(); i++)
 		drawHealthBar(render, pieceList[i], window_data, cam_data); // vida
-	}
 
 	// desenhando localização do ponteiro
 
@@ -70,7 +73,7 @@ void draw(void) {
 	if (enlighten_pointer_square) {
 		Color color;
 
-		alpha+= fadeDir * 35;
+		alpha+= fadeDir * 15;
 
 		if (alpha >= 200) // oscilação da cor
 			fadeDir*= -1;
