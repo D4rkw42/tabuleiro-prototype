@@ -33,6 +33,7 @@ extern int pointer_y; // posição y do ponteiro
 
 // definições de efeito
 
+extern bool piece_moving; // se uma peça está sendo movida
 extern bool enlighten_pointer_square; // se o quadrado onde está o ponteiro deve estar iluminado
 
 // controle do mouse

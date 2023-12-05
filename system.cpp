@@ -21,6 +21,8 @@ bool initialize(void) {
 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); // criando renderizador
 
+	SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+
 	// icone da janela
 
 	SDL_Surface* icon_surface = IMG_Load("source/images/icon.png");

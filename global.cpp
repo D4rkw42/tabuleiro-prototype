@@ -25,6 +25,7 @@ int pointer_y = 0; // posição y do ponteiro
 
 // definições de efeito
 
+bool piece_moving = false; // se uma peça está sendo movida
 bool enlighten_pointer_square = false; // se o quadrado onde está o ponteiro deve estar iluminado
 
 // controle do mouse

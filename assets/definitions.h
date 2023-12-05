@@ -12,4 +12,8 @@ typedef struct Window_data { // dados da janela
 	int width, height;
 } Window_data;
 
+typedef struct Color { // guarda dados de cores
+	int r, g, b, a;
+} Color;
+
 #endif

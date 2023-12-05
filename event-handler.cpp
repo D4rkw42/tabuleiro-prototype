@@ -7,6 +7,7 @@
 #include "global.h"
 #include "config.h"
 
+#include "assets/maths.h"
 #include "assets/square.h"
 
 void onMouseWheel(SDL_Event* event) {
@@ -65,12 +66,14 @@ void onMouseClick(SDL_Event* event, int dir) {
 					if (pieceList[i].x == square.x && pieceList[i].y == square.y) {
 						pieceSellected = &pieceList[i];
 						enlighten_pointer_square = true;
+						piece_moving = true;
 
 						break;
 					}
 				}
 			} else {
 				bool over_piece = false;
+				bool in_range = false;
 
 				for (Piece piece : pieceList) { // verificando se está sobre outra peça
 					if (piece.x == square.x && piece.y == square.y) {
@@ -79,7 +82,13 @@ void onMouseClick(SDL_Event* event, int dir) {
 					}
 				}
 
-				if (!over_piece) {
+				// verificando distância máxima
+
+				int dist = distance(square.x, square.y, pieceSellected->x, pieceSellected->y);
+
+				in_range = (dist <= pieceSellected->walk_dist);
+
+				if (!over_piece && in_range) {
 					//atualizando posição
 
 					pieceSellected->x = square.x;
@@ -89,6 +98,7 @@ void onMouseClick(SDL_Event* event, int dir) {
 
 					pieceSellected = NULL;
 					enlighten_pointer_square = false;
+					piece_moving = false;
 				}
 			}
 

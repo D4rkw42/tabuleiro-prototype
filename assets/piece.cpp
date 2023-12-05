@@ -3,12 +3,15 @@
 #include "piece.h"
 
 #include <fstream>
+#include <cmath>
 #include <nlohmann/json.hpp>
 #include <SDL2/SDL_Image.h>
 
 #include <iostream>
 
 #include "config.h"
+
+#include "assets/maths.h"
 
 using namespace nlohmann;
 using namespace std;
@@ -90,4 +93,35 @@ void Piece::draw(SDL_Renderer* render, Window_data window_data, Cam_data cam_dat
 void createNewPiece(std::vector<Piece>& list, Piece_type type, const char* name, double x, double y) {
 	Piece piece(type, name, x, y);
 	list.push_back(piece);
+}
+
+void displayPieceRange(SDL_Renderer* render, Piece* target, Square_data square, Window_data window_data, Cam_data cam_data) {
+	int distX = abs(target->x - square.x);
+	int distY = abs(target->y - square.y);
+
+	int dist = distance(target->x, target->y, square.x, square.y);
+
+	double stepX, stepY;
+
+	if (dist > 0) {
+		stepX = (double)distX / dist; // step de desenho X
+		stepY = (double)distY / dist; // step de desenho Y
+	} else {
+		stepX = 0;
+		stepY = 0;
+	}
+
+	int dirX = (target->x > square.x)? -1 : 1;
+	int dirY = (target->y > square.y)? -1 : 1;
+
+	for (int i = 1; i < dist; i++) {
+		Color color;
+
+		if (distance(target->x, target->y, target->x + ceil(stepX * dirX * i), target->y + ceil(stepY * dirY * i)) > target->walk_dist)
+			color = Color{255, 150, 150, 200};
+		else
+			color = Color{150, 255, 150, 200};
+
+		fillSquare(render, target->x + ceil(stepX * dirX * i), target->y + ceil(stepY * dirY * i), color, window_data, cam_data);
+	}
 }

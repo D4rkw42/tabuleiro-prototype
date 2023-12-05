@@ -9,7 +9,7 @@
 #include <iostream>
 
 void drawSquareGrid(SDL_Renderer* render, Window_data window_data, Cam_data cam_data) {
-	SDL_SetRenderDrawColor(render, 255, 255, 255, 255); // branco
+	SDL_SetRenderDrawColor(render, 255, 255, 255, 100); // branco
 
 	int initial_x = cam_data.x - window_data.width / 2 * 1 / cam_data.scale;
 	int initial_y = cam_data.y - window_data.height / 2 * 1 / cam_data.scale;
@@ -40,7 +40,7 @@ void drawSquareGrid(SDL_Renderer* render, Window_data window_data, Cam_data cam_
 	}
 }
 
-void fillSquare(SDL_Renderer* render, int x, int y, Window_data window_data, Cam_data cam_data) {
+void fillSquare(SDL_Renderer* render, int x, int y, Color color, Window_data window_data, Cam_data cam_data) {
 	// calculando valores reais
 
 	SDL_Rect rect;
@@ -61,7 +61,7 @@ void fillSquare(SDL_Renderer* render, int x, int y, Window_data window_data, Cam
 
 	// desenhando
 
-	SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(render, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(render, &rect);
 }
 

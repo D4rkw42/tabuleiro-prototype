@@ -30,8 +30,6 @@ void drawHealthBar(SDL_Renderer* render, Piece piece, Window_data window_data, C
 	rect.w*= cam_data.scale;
 	rect.h*= cam_data.scale;
 
-	SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(render, 100, 255, 100, HEALTH_BAR_OPACITY * 255);
-
 	SDL_RenderFillRect(render, &rect);
 }
