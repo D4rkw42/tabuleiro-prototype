@@ -1,0 +1,7 @@
+{
+	"players": {
+		"william" : {"max-health": 200, "img-source": "players/william.jpg", "walk-dist": 9}
+	},
+
+	"characters": {}
+}
