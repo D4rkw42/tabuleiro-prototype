@@ -9,6 +9,7 @@
 
 #include "assets/maths.h"
 #include "assets/square.h"
+#include "assets/piece.h"
 
 void onMouseWheel(SDL_Event* event) {
 	if (event->wheel.y < 0) { // diminui o zoom
@@ -63,8 +64,8 @@ void onMouseClick(SDL_Event* event, int dir) {
 		if (dir == -1) {
 			if (pieceSellected == NULL) {
 				for (size_t i = 0; i < pieceList.size(); i++) { // buscando peça
-					if (pieceList[i].x == square.x && pieceList[i].y == square.y) {
-						pieceSellected = &pieceList[i];
+					if (pieceList[i]->x == square.x && pieceList[i]->y == square.y) {
+						pieceSellected = pieceList[i];
 
 						pieceSellected->transparent = true;
 						enlighten_pointer_square = true;
@@ -77,8 +78,8 @@ void onMouseClick(SDL_Event* event, int dir) {
 				bool over_piece = false;
 				bool in_range = false;
 
-				for (Piece piece : pieceList) { // verificando se está sobre outra peça
-					if (piece.x == square.x && piece.y == square.y) {
+				for (Piece* piece : pieceList) { // verificando se está sobre outra peça
+					if (piece->x == square.x && piece->y == square.y) {
 						over_piece = true;
 						break;
 					}

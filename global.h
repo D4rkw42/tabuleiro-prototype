@@ -8,6 +8,9 @@
 #include <SDL2/SDL.h>
 
 #include "assets/piece.h"
+#include "assets/map.h"
+
+#include "assets/inputs/button.h"
 
 // definições
 
@@ -46,7 +49,17 @@ extern int last_click_y_right; // última posição y de click down conhecida (d
 
 // variáveis globais
 
-extern std::vector<Piece> pieceList; // peças do jogo
+extern std::vector<Piece*> pieceList; // peças do jogo
 extern Piece* pieceSellected; // peça selecionada
+
+extern Map* mapSellected; // o mapa que foi selecionado
+
+// painel de controle
+
+// botão hp, adição/remoção de personagem, adição/remoção de mapa
+
+extern std::vector<Button*> button_list; // lista de botões
+
+extern Piece* panel_pieceSellected; // guarda peça selecionada para modificações
 
 #endif

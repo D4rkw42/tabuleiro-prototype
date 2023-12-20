@@ -11,20 +11,12 @@ SDL_FLAGS = -lmingw32 -L "C:/MinGW/include/SDL2/lib" -lSDL2 -lSDL2main -lSDL2_im
 
 # SOURCE
 
-SOURCE = $(wildcard *.cpp) $(wildcard assets/*.cpp)
-
-#
-
-build: clear
-	$(CC) $(SOURCE) -o $(PROJ) $(SDL_FLAGS) $(FLAGS) $(BUILD_FLAGS)
-	@echo $(PROJ).exe compiled sucessfully!
-	./$(PROJ)
+SOURCE = $(wildcard *.cpp) $(wildcard assets/*.cpp) $(wildcard assets/inputs/*.cpp)
 
 dev: clear
-	$(CC) $(SOURCE) -o $(PROJ_DEV) $(SDL_FLAGS) $(FLAGS)
-	@echo $(PROJ_DEV).exe compiled sucessfully!
+	$(CC) $(SOURCE) -o $(PROJ_DEV) $(FLAGS) $(SDL_FLAGS)
+	@echo $(PROJ_DEV).exe has been compiled!
 	./$(PROJ_DEV)
-
 
 clear:
 	@cls

@@ -9,15 +9,30 @@
 
 #include "assets/definitions.h"
 #include "assets/maths.h"
+
+#include "assets/map.h"
+
 #include "assets/square.h"
 #include "assets/piece.h"
 #include "assets/health-bar.h"
+#include "assets/panel.h"
+
+#include "assets/inputs/button.h"
 
 #include <iostream>
 
 void initApp(void) {
-	for (int i = 1; i <= 10; i++)
+	for (int i = 1; i <= 3; i++)
 		createNewPiece(pieceList, Piece_type::PLAYER, "william", (i - 6), 0);
+
+	//mapSellected = loadMap("forest-3");
+
+	// criação do painel
+
+	// aumento/diminuição de vida
+
+	createButton<Bnt_changeHealth, Bnt_changeHealth_data>(button_list, 20, 20, 50, 50, new Bnt_changeHealth_data{panel_pieceSellected, 1});
+	createButton<Bnt_changeHealth, Bnt_changeHealth_data>(button_list, 90, 20, 50, 50, new Bnt_changeHealth_data{panel_pieceSellected, -1});
 }
 
 void quitApp(void) {
@@ -27,7 +42,7 @@ void quitApp(void) {
 //
 
 void update(int deltatime) {
-	
+
 }
 
 void draw(void) {
@@ -50,10 +65,15 @@ void draw(void) {
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 255); // preto
 	SDL_RenderClear(render); // clear
 
+	// desenhando mapa
+
+	if (mapSellected != NULL)
+		renderMap(render, mapSellected, window_data, cam_data);
+
 	// desenhando peças
 
 	for (size_t i = 0; i < pieceList.size(); i++)
-		pieceList[i].draw(render, window_data, cam_data); // peça
+		pieceList[i]->draw(render, window_data, cam_data); // peça
 
 	// desenhando a grade
 
@@ -62,8 +82,10 @@ void draw(void) {
 
 	// desenhando health bar
 
-	for (size_t i = 0; i < pieceList.size(); i++)
-		drawHealthBar(render, pieceList[i], window_data, cam_data); // vida
+	if (!piece_moving) {
+		for (size_t i = 0; i < pieceList.size(); i++)
+			drawHealthBar(render, pieceList[i], window_data, cam_data); // vida
+	}
 
 	// desenhando localização do ponteiro
 
@@ -94,6 +116,11 @@ void draw(void) {
 
 	if (piece_moving)
 		displayPieceRange(render, pieceSellected, square, window_data, cam_data);
+
+	// renderização do painel
+
+	for (Button* bnt : button_list) // botões
+		bnt->draw(render, window_data);
 
 	//
 

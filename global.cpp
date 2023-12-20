@@ -38,5 +38,13 @@ int last_click_y_right = 0; // última posição y de click down conhecida (dire
 
 // variáveis globais
 
-std::vector<Piece> pieceList; // peças do jogo
+std::vector<Piece*> pieceList; // peças do jogo
 Piece* pieceSellected = NULL; // peça selecionada
+
+Map* mapSellected = NULL; // o mapa que foi selecionado
+
+// painel de controle
+
+std::vector<Button*> button_list; // lista de botões
+
+Piece* panel_pieceSellected = NULL; // guarda peça selecionada para modificações

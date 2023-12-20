@@ -14,10 +14,12 @@
 #include "assets/maths.h"
 
 using namespace nlohmann;
-using namespace std;
+
+using std::ifstream;
+using std::string;
 
 Piece::Piece(Piece_type type, const char* name, double x, double y) {
-	const char* data_root = "assets/pieces.json"; // root de acesso de dados
+	const char* data_root = "assets/resources/pieces.json"; // root de acesso de dados
 	const char* target; // alvo para tipo
 
 	string img_source = "source/images/"; // root de acesso de imagens
@@ -43,6 +45,8 @@ Piece::Piece(Piece_type type, const char* name, double x, double y) {
 	this->y = y;
 
 	this->transparent = false;
+
+	this->type = type;
 
 	string img_source_info = data["img-source"].dump(); // dado do objeto json
 	string img_final_source = img_source + img_source_info.substr(1, img_source_info.length() - 2); // capturando root completa
@@ -85,9 +89,27 @@ void Piece::draw(SDL_Renderer* render, Window_data window_data, Cam_data cam_dat
 	rect.w*= cam_data.scale;
 	rect.h*= cam_data.scale;
 
-	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureAlphaMod(texture, this->transparent? 0.5 * 255 : 255);
-	SDL_RenderCopy(render, texture, NULL, &rect);
+	//
+
+	bool out_of_range = false; // detecção se a imagem é renderizada fora da tela
+
+
+	if (rect.x + rect.w < 0)
+		out_of_range = true;
+	else if (rect.x - rect.w > window_data.width)
+		out_of_range = true;
+
+	if (rect.y + rect.h < 0)
+		out_of_range = true;
+	else if (rect.y - rect.h > window_data.height)
+		out_of_range = true;
+
+
+	if (!out_of_range) {
+		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(texture, this->transparent? 0.5 * 255 : 255);
+		SDL_RenderCopy(render, texture, NULL, &rect);
+	}
 
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(image_surface);
@@ -95,8 +117,9 @@ void Piece::draw(SDL_Renderer* render, Window_data window_data, Cam_data cam_dat
 
 //
 
-void createNewPiece(std::vector<Piece>& list, Piece_type type, const char* name, double x, double y) {
-	Piece piece(type, name, x, y);
+void createNewPiece(std::vector<Piece*>& list, Piece_type type, const char* name, double x, double y) {
+	Piece* piece = new Piece(type, name, x, y);
+
 	list.push_back(piece);
 }
 
